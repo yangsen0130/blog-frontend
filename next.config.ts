@@ -1,4 +1,3 @@
-// next.config.ts - 正确写法
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {

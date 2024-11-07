@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { login } from '../services/api';
+import { useAuth } from '../context/AuthContext'; // 导入 useAuth
 
 export default function LoginForm() {
   const router = useRouter();
+  const { setUser } = useAuth(); // 获取 setUser 函数
+
+  // 设置默认用户名和密码
   const [formData, setFormData] = useState({
-    username: '',
-    password: ''
+    username: 'testuser', // 默认用户名
+    password: '123456'    // 默认密码
   });
+  
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -26,7 +31,8 @@ export default function LoginForm() {
     try {
       const response = await login(formData);
       if (response.code === 200) {
-        router.push('/'); // 登录成功后跳转到首页
+        setUser(response.data);
+        router.push('/');
       } else {
         setError(response.message);
       }
